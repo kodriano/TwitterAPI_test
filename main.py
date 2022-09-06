@@ -12,25 +12,21 @@ AT = config.ACCESS_TOKEN
 ATS = config.ACCESS_TOKEN_SECRET
 BR = config.BEARER
 
-URL = "https://api.twitter.com/2/users/1026814833272877057/timelines/reverse_chronological"
+# Endpoint
+URL = "https://api.twitter.com/2/users/{yourID}/timelines/reverse_chronological"
 
+# Oauth1.0 Authentication
 oauth = OAuth1Session(CK,CS,AT,ATS)
 
 
 res = oauth.get(URL).json()
 
-workbook = openpyxl.load_workbook('test.xlsx')
+workbook = openpyxl.load_workbook('Path') #編集するエクセルのパスを記入する.
 worksheet = workbook.worksheets[0]
+
 for i in range(len(res["data"])):
     tweet = res["data"][i]["text"]
     worksheet.cell(row=i+1,column=1,value=tweet)
+
 workbook.save('test.xlsx')
 workbook.close()
-
-#print(res["data"][0]["text"])
-
-"""
-for tweet in public_tweets:
-    print(tweet)
-"""
-
